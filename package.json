@@ -1,0 +1,14 @@
+{
+  "name": "ip-learning-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local interactive practice for Képfeldolgozás (image processing)",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/verify.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

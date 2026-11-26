@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Image processing practice</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='3' width='26' height='26' rx='4' fill='%232f6fed'/%3E%3Crect x='7' y='7' width='6' height='6' fill='%23fff'/%3E%3Crect x='13' y='13' width='6' height='6' fill='%23fff' opacity='.6'/%3E%3Crect x='19' y='19' width='6' height='6' fill='%23fff' opacity='.3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <button class="icon-btn" id="menuBtn" aria-label="Menu">☰</button>
+    <a class="brand" href="#/">
+      <svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="4" fill="currentColor"/><rect x="7" y="7" width="6" height="6" fill="#fff"/><rect x="13" y="13" width="6" height="6" fill="#fff" opacity=".6"/><rect x="19" y="19" width="6" height="6" fill="#fff" opacity=".3"/></svg>
+      <span id="brandName">Image processing practice</span>
+    </a>
+    <div class="overall" id="overall"></div>
+    <div id="examTimer" class="exam-timer" hidden></div>
+    <nav class="top-actions">
+      <a class="btn ghost" href="#/play" id="playLink">Image lab</a>
+      <button class="btn ghost" id="cheatBtn">Cheat sheet</button>
+      <select class="lang-select" id="langSel" aria-label="Language"></select>
+      <button class="icon-btn" id="themeBtn" aria-label="Dark mode">◐</button>
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main" id="main"><p class="muted pad">…</p></main>
+    <aside class="drawer" id="drawer" hidden>
+      <div class="drawer-head"><strong id="drawerTitle">Cheat sheet</strong><button class="icon-btn" id="drawerClose" aria-label="Close">✕</button></div>
+      <div class="drawer-body md" id="drawerBody"></div>
+    </aside>
+  </div>
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

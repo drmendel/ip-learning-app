@@ -1,0 +1,10 @@
+node_modules
+.git
+.claude
+test
+*.log
+Dockerfile
+compose.yaml
+README.md
+CONTENT_GUIDE.md
+start.sh

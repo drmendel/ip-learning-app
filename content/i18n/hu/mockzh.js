@@ -1,0 +1,57 @@
+const c = (title, prompt, answerText) => ({ title, prompt, answerText });
+
+export default {
+  title: 'Minta ZH',
+  lab: 'Vizsga',
+  exercises: {
+    'zh-1': {
+      title: '1) Egy 45°-os él helyzete',
+      prompt: 'Tudjuk, hogy a képen adott irányú, **45 fokos, átlós, egyenes él** (a sávval párhuzamos, azaz az **x + y = állandó** egyenesek mentén futó) helyezkedik el a **kiemelt színnel jelölt területen**. Határozzuk meg pontos helyzetét!\n\nHasználd az elvárt helyzetű élszakaszok detektálását: **(a)** összegezd a kiemelt cellák intenzitását minden x + y = k átló mentén (k = 5 … 13; minden átlón 4 kiemelt cella van), **(b)** készítsd el az élerősség-tömböt a sávra merőlegesen a **[−1 0 1]** differencia maszkkal: d(k) = S(k+1) − S(k−1), k = 6 … 12, **(c)** az él ott van, ahol |d| maximális: add meg k-t, azaz az x + y = k egyenest (x = oszlop, y = sor, 1-től).',
+      grids: ['f(x, y)'],
+      labels: { S: '(a) S(k), k = 5 … 13', d: '(b) d(k) = S(k+1) − S(k−1), k = 6 … 12', k: '(c) az él az x + y = k egyenesen van, k =' },
+      hints: ['k = 5: f(4,1) + f(3,2) + f(2,3) + f(1,4) = 70 + 82 + 96 + 123 = 371.'],
+      explain: 'S = 371, 467, 513, 572, 691, 615, 615, 599, 611. d = 142, 105, **178**, 43, −76, −16, −4. A legerősebb (sötét → világos) változás **k = 8**-nál van: az él az **x + y = 8** egyenesen fut, a (6,2), (5,3), (4,4), (3,5) (x, y) pixeleken át. Az él irányában való összegzés kiátlagolja a zajt, így a sávra merőleges 1D profilon tisztán látszik a lépcső. (Előrehaladó differenciával, [−1 1], a maximum, 119, k = 8 és 9 között van — mondd meg, melyik maszkot használod.)',
+    },
+    'zh-2': {
+      title: '2) Súlypont és centrális nyomatékok',
+      prompt: 'Tételezzük fel a következő bináris képet, ahol az egyesek az objektumot jelölik (x = oszlop →, y = sor ↓, mindkettő **1-től**). Határozzuk meg a **súlypont** helyét és az **első három centrális nyomatékot** (a másodrendűeket: μ20, μ02, μ11)!',
+      grids: ['B(x, y)'],
+      labels: { xc: 'x̄', yc: 'ȳ', m20: 'μ20 = Σ (x − x̄)²', m02: 'μ02 = Σ (y − ȳ)²', m11: 'μ11 = Σ (x − x̄)(y − ȳ)' },
+      explain: 'Terület m00 = 20, Σx = 120, Σy = 89 → **x̄ = 6, ȳ = 4,45**. μ20 = Σx² − m00·x̄² = 770 − 720 = **50**, μ02 = Σy² − m00·ȳ² = 427 − 396,05 = **30,95**, μ11 = Σxy − m00·x̄·ȳ = 536 − 534 = **2**. (μ00 = 20 és μ10 = μ01 = 0 definíció szerint — a nulla- és elsőrendű centrális nyomatékok nem hordoznak alakinformációt.)',
+    },
+    'zh-3a': {
+      title: '3a) A téglatest leírómátrixa',
+      prompt: 'Egy át nem méretezhető, merev **téglatestet** (1 × 1 × 2: x ∈ [0, 1], y ∈ [0, 1], z ∈ [0, 2]) szeretnénk átbujtatni a tőle **x\\* = 3** távolságra elhelyezkedő **kapun** (nyílása 1,3 magas és 1,3 széles).\n\nHatározza meg a munkadarab **homogén koordinátás leírómátrixát** (csúcsonként egy oszlop) ebben a csúcssorrendben:\n\n1 = (0,0,0), 2 = (1,0,0), 3 = (1,1,0), 4 = (0,1,0), 5 = (0,0,2), 6 = (1,0,2), 7 = (1,1,2), 8 = (0,1,2).',
+      labels: { D: 'leírómátrix' },
+      explain: 'Sorok: x, y, z, 1; csúcsonként egy oszlop. A csupa egyes negyedik sor teszi lehetővé, hogy az eltolás is mátrixszorzás legyen.',
+    },
+    'zh-3b': {
+      starter: '# soronként egy transzformáció\n',
+      title: '3b) Át a kapun',
+      prompt: 'Adja meg azt a **transzformáció sorozatot**, amely a téglatestet a kezdeti pozícióból a kapun (narancs, x\\* = 3-nál, 1,3 magas nyílás) át a **célhelyzetbe** (zöld) mozgatja: laposan fekve, **x ∈ [4, 6]**, y ∈ [0, 1], z ∈ [0, 1].\n\nA munkadarab **soha nem kerülhet a z = 0 sík alá** (forgatás közben sem), nem méretezhető át, és amikor áthalad x = 3-on, át kell férnie a nyíláson.',
+      explain: 'A test 2 magas, a kapu csak 1,3 → előbb **el kell dönteni**. Az origón átmenő y tengely körüli forgatás z = 0 alá vinné, ezért az **x = 1-nél lévő alsó éle** körül forgassuk: Tran(−1, 0, 0), Ry(90°), Tran(1, 0, 0) (itt `Ry(90) about (1, 0, 0)` alakban) – most x ∈ [1, 3]-on fekszik. Ezután Tran(3, 0, 0) átnyomja a kapun x ∈ [4, 6]-ra.',
+    },
+    'zh-3c': {
+      title: '3c) Az eredő mátrix',
+      prompt: 'Adja meg a sorozat **eredő homogén transzformációs mátrixát, T-t** (4 × 4), azaz azt a mátrixot, amellyel **új leíró = T · régi leíró**, és amely a téglatestet a kezdőhelyzetből a 3b célhelyzetébe viszi. A mátrixelemek kifejezések is lehetnek, pl. cos(90).',
+      labels: { T: 'T' },
+      explain: 'A Tran(−1,0,0), Ry(90°), Tran(1,0,0), Tran(3,0,0) sorozattal: T = Tran(4,0,0)·Ry(90°)·Tran(−1,0,0) = [[0, 0, 1, 4], [0, 1, 0, 0], [−1, 0, 0, 1], [0, 0, 0, 1]]. Ellenőrzés: az 5. csúcs (0,0,2) → (2+4, 0, 0+1) = (6, 0, 1). Minden olyan merev T-t elfogadunk, amely a kezdő téglatestet a cél téglatestre képezi (pl. a másik irányba billentve és z körül forgatva is).',
+    },
+    'zh-t1': c('Elmélet 1) Normalizált hisztogram', 'Mit értünk egy szürkeárnyalatos kép **normalizált hisztogramján**? (2 pont)',
+      'A hisztogram h(r_k) = n_k megadja, hány pixel van az egyes r_k szürkeségi szinteken (k = 0 … L−1). A **normalizált hisztogram** ezt elosztja a pixelek n számával: **p(r_k) = n_k / n**. Ez annak **valószínűségét** becsüli, hogy egy pixel intenzitása r_k; az értékek összege **1**, így független a kép méretétől (különböző méretű képek összehasonlíthatók), és erre épül a hisztogram kiegyenlítés (halmozott összeg) és az Otsu-küszöbölés.'),
+    'zh-t2': c('Elmélet 2) SSD és SAD', 'Mit jelent az **SSD** és mit az **SAD**? Hol használtuk ezeket? (3 pont)',
+      '**SSD** = négyzetes eltérések összege: Σ (I₁(x, y) − I₂(x, y))². **SAD** = abszolút eltérések összege: Σ |I₁(x, y) − I₂(x, y)|. Mindkettő két képrészlet **különbözőségét** méri – azonos részleteknél 0, a legjobb illeszkedés a **minimum**.\n\nHasználat: **mintaillesztés** (a mintát végigcsúsztatjuk a képen, a minimumot keressük; az SAD olcsóbb, az SSD jobban bünteti a nagy hibákat), a **jellemző pontok** detektálásának levezetése (az eltolt ablak E(u, v) SSD hibája → H mátrix / Harris), valamint blokkillesztés **mozgásbecslésnél / optikai áramlásnál és sztereó** megfeleltetésnél.'),
+    'zh-t3': c('Elmélet 3) Visszafelé haladó transzformáció', 'Miért alkalmaznak **visszafelé haladó** (inverz) transzformációt képforgatásnál? (2 pont)',
+      '**Előre** haladó leképezésnél (forráspixel → transzformált hely) nem egész koordinátákat kapunk; egyes célpixelek **nem kapnak értéket (lyukak)**, mások **többet is (átfedés)**, mert a két pixelrács között nincs kölcsönösen egyértelmű megfeleltetés.\n\nA **visszafelé** haladó leképezés **minden kimeneti pixelen** végigmegy, az **inverz** transzformációval kiszámítja, honnan jön a forrásképen, és ott **interpolál** (legközelebbi szomszéd, bilineáris, …). Így minden kimeneti pixel pontosan egy, jól definiált értéket kap – nincsenek lyukak.'),
+    'zh-t4': c('Elmélet 4) Aluláteresztő maszkok skálázó faktora', 'Miért alkalmaznak a **maszksúlyok összegével megegyező skálázó faktort** aluláteresztő szűrőknél? (2 pont)',
+      'A kimenet a szomszédok súlyozott összege; a **súlyok összegével** osztva az effektív súlyok összege **1** lesz. Így a szűrő csak átlagol: a kép **átlagos intenzitása (világossága) megmarad**, egy **konstans terület változatlan marad** (DC erősítés = 1), és az eredmény az eredeti értéktartományban marad (nincs túlcsordulás / telítődés). Enélkül pl. egy 3×3-as átlagoló maszk kilencszeresére növelné a világosságot.'),
+    'zh-t5': c('Elmélet 5) Gauss és Laplace piramis', 'A **Gauss** és a **Laplace piramis** melyik szintje egyezik meg, és miért? (2 pont)',
+      'A **legfelső (legkisebb, legdurvább) szint**. Minden Laplace-szint egy különbség: L_k = g_k − EXPAND(g_{k+1}); a legdurvább szintnél **nincs kisebb szint**, amit felnagyítva kivonhatnánk, ezért azt **változatlanul** tároljuk: L_felső = g_felső. Erre szükség van a kép **rekonstrukciójához** (g_k = L_k + EXPAND(g_{k+1}), felülről indulva).'),
+    'zh-t6': c('Elmélet 6) Canny éldetektor', 'Melyek a **Canny éldetektor** fő lépései? (4 pont)',
+      '1. **Simítás Gauss szűrővel** (zajcsökkentés; σ a zajelnyomás és a lokalizálás közti kompromisszum).\n2. **Gradiens** számítás: Ix, Iy → élerősség (nagyság) √(Ix² + Iy²) és élorientáció atan(Iy / Ix).\n3. **Nem-maximumok elnyomása**: az irányt 0°, 45°, 90°, 135°-ra kvantáljuk; egy pixel csak akkor marad meg, ha nagysága nem kisebb a gradiens irányában lévő két szomszédjánál → egy pixel vastag élek.\n4. **Hiszterézises küszöbölés** két küszöbbel: a felső felett → él; az alsó alatt → nem él; a kettő között → csak akkor él, ha élpixelhez kapcsolódik (élkövetés) → hosszú, szakadásmentes kontúrok.'),
+    'zh-t7': c('Elmélet 7) n-ed rendű alakok', 'Mik az **n-ed rendű alakok**? (2 pont) Mire használják azokat? (2 pont)',
+      'Az **n-ed rendű alakok** azok a lehetséges zárt alakzatok, amelyek határa **n elemű** lánckóddal leírható (a rend = a lánckód hossza = a kerület rácslépésekben). Pl. 4-irányú kóddal a 4-ed rendű alak csak az egységnégyzet, a 6-od rendűből egy van (1×2-es téglalap), a 8-ad rendűből három.\n\n**Felhasználás:** ezekre épül az **alakszám** (a differencia lánckód legkisebb körkörös elforgatása, amely független a kezdőponttól és a 90°-os elforgatásoktól). Az alakzatokat **rögzített rendű** alakszámukkal hasonlítjuk össze/osztályozzuk (módosított alakszám: olyan rácsot illesztünk, amelynek téglalapja az objektum excentricitásával egyezik és a kívánt rendet adja) – pl. kontúrok illesztésére, felismerésére; a hasonlóság mértéke az a legnagyobb rend, amelyen két alak még megegyezik.'),
+    'zh-t8': c('Elmélet 8) Centrális nyomatékok', 'A **centrális nyomatékokat** hogyan számoljuk ki, és milyen transzformáció(k)ra invariáns az értékük? (2 pont)',
+      'μ_pq = Σ_x Σ_y (x − x̄)ᵖ (y − ȳ)^q · B(x, y), ahol a súlypont x̄ = m10/m00, ȳ = m01/m00 (m_pq = Σ Σ xᵖ y^q B(x, y)). Mivel a súlyponttól mérjük őket, **eltolásra invariánsak**. Skálázásra és forgatásra nem invariánsak; az η_pq = μ_pq / μ00^((p+q)/2+1) normalizálás **skálázásra** invariánssá tesz, az η-ból képzett Hu-invariánsok (pl. φ1 = η20 + η02) pedig **eltolásra, skálázásra és forgatásra** is invariánsak.'),
+  },
+};
